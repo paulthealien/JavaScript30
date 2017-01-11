@@ -18,29 +18,43 @@
     }
 
     // Regular
-
+    console.log('howdy');
     // Interpolated
-
+    console.log('hoooodoooo %s', 'ooooor');
     // Styled
+
+    console.log('%c save meee', 'background: black; font-size: 20px;');
 
     // warning!
 
+    console.warn('HODOOOR');
+
     // Error :|
+    console.error('HODOOR ... HODOOR');
 
     // Info
-
+    console.info('...he does not speak like normal people');
     // Testing
-
+    console.assert('Bran' === 'White Walker', 'That does not make any sense');
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.dir(p);
 
     // Grouping together
-
+    console.groupCollapsed(`${dogs.name}`); // console.group() works as well
+    console.log(`${dogs[0].name} is ${dogs[0].age} old`);
+    console.groupEnd(`${dogs.name}`);
     // counting
-
+    console.count('HODOOOR');
+    console.count('HODOOOR');
+    console.count('HODOOOR');
+    console.count('HODOOOR');
     // timing
-
+    console.time();
+    console.timeEnd();
   </script>
 </body>
 </html>
