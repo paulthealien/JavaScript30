@@ -104,6 +104,50 @@
   </div>
 
 <script>
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+let lastChecked;
+
+
+function handleCheck(e) {
+  // cehck if they have the shift key down
+  // check that  they are checking it
+  let inBetween = false;
+  if(e.shiftKey && this.checked) {
+    checkboxes.forEach(checkbox => {
+      if(checkbox === this || checkbox === lastChecked) {
+        inBetween = !inBetween;
+      }
+      if (inBetween) {
+        checkbox.checked = true;
+      }
+    });
+  }
+  lastChecked = this;
+}
+
+
+
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
+// Failed attempt at a solution
+// inputs.forEach(input => input.addEventListener('change', (e) => console.log(e)));
+// function handleShiftKeyDown(e) {
+//   if (e.keyCode != 16) return;
+//   console.log(e);
+// }
+//
+// function handleShiftKeyUp(e) {
+//  if (e.keyCode != 16) return;
+//   console.log(e);
+// }
+//
+
+// checkboxes.forEach(checkbox => checkbox.addEventListener('mouseover', (e) => console.log(e)));
+
+// document.addEventListener('keydown', handleShiftKeyDown);
+// document.addEventListener('keyup', handleShiftKeyUp);
+
 </script>
 </body>
 </html>
