@@ -23,13 +23,84 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <button data-name="clear"> Clear </button>
+    <button data-name="checkAll"> Check All </button>
+    <button data-name="uncheckAll"> Uncheck All </button>
+
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+  const buttons = document.querySelectorAll('button');
 
+
+  function addItem(event) {
+    event.preventDefault();
+    const text = (this.querySelector('[name=item]')).value;
+
+    const item = {
+      text,
+      done: false
+    };
+    
+    items.push(item);
+    
+    populateList(items, itemsList);
+
+    localStorage.setItem('items', JSON.stringify(items));
+
+    this.reset();
+  }
+
+  function populateList(plates = [], platesList) {
+   platesList.innerHTML = plates.map((plate, i) => {
+    return `
+       <li>
+          <input type="checkbox" data-index=${i} id="item${i}" 
+            ${plate.done ? 'checked' : ''} />
+          <label for="item${i}">${plate.text}</label>
+       </li>
+      `;
+   }).join('');
+  }
+  
+  function toggleDone(event) {
+    if (!event.target.matches('input')) return;
+    const element = event.target;
+    const index = element.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+  
+  function clear() {
+    localStorage.removeItem('items');
+  }
+  
+  function checkAll() {
+    items.forEach(item => item.done = true);
+  }
+
+  function uncheckAll() {
+    items.forEach(item => item.done = false);
+  }
+
+  
+  function handleButtons() {
+    const method = this.dataset.name;
+    eval(`${method}()`); // dangerous operation. find alternative
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  };
+  
+  
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+  buttons.forEach(btn => btn.addEventListener('click', handleButtons));
+  populateList(items, itemsList);
 </script>
 
 
